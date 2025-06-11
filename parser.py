@@ -50,7 +50,7 @@ def tool_dict_builder(parsed_content):
                 raise ValueError(f"Missing attribute in '{line}'")
             if not value:
                 raise ValueError(f"Missing value in '{line}'")
-            sub_dict[attribute] = value
+            sub_dict[attribute] = int(value)
 
         required_attrs = ("S", "A", "C")
         if not all(attr in sub_dict for attr in required_attrs):
@@ -91,7 +91,7 @@ def material_dict_builder(parsed_content):
                     raise ValueError(f"Missing attribute in '{line}'")
                 if not value:
                     raise ValueError(f"Missing value in '{line}'")
-                sub_dict[attribute] = value
+                sub_dict[attribute] = int(value)
             elif ">" in item:
                 pref_order = item.split(">")
                 sub_dict["Pref"] = pref_order

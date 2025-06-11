@@ -1,7 +1,7 @@
 import sys
 import logging
 from ToolAssigner.parser import open_file_read, parse_lines, tool_dict_builder, material_dict_builder
-
+from ToolAssigner.matching import ToolMaterialMatcher
 
 logger = logging.getLogger(__name__)
 
@@ -25,6 +25,10 @@ def tool_material_dict_builder():
 def tool_material_matching(tool_dict, material_dict):
     if len(material_dict) % len(tool_dict) != 0:
         raise ValueError("Number of provided tools must evenly divide the number of provided materials.")
+
+    matcher = ToolMaterialMatcher(tool_dict, material_dict)
+    matcher.add_tool_fit_to_material()
+
 
 if __name__ == "__main__":
     try:
