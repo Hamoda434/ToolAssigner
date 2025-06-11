@@ -27,7 +27,7 @@ def tool_material_dict_builder():
 
     return tool_dict, material_dict
 
-def tool_material_mathcing(tool_dict, material_dict):
+def tool_material_matching(tool_dict, material_dict):
     print(tool_dict)
     print(material_dict)
 
@@ -46,5 +46,5 @@ if __name__ == "__main__":
         logger.error("The number of provided tools must divide evenly "
                      "into the number of provided materials.")
         sys.exit(1)
-    #tool_dict, material_dict = tool_material_dict_builder()
-    #tool_material_mathcing(tool_dict, material_dict)
+
+    tool_material_matching(built_tool_dict, built_material_dict)
