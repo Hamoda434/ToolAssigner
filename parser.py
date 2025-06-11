@@ -1,5 +1,5 @@
 import logging
-logger = logging.getLogger("tool_parser")
+logger = logging.getLogger(__name__)
 
 
 def open_file_read(filepath):
@@ -10,7 +10,7 @@ def open_file_read(filepath):
         with open(filepath, 'r') as f:
             return f.read()
     except FileNotFoundError:
-        logger.warning("Input file not found.")
+        logger.error("Input file not found.")
 
 def parse_lines(content):
     """
@@ -21,7 +21,7 @@ def parse_lines(content):
     try:
         return content.splitlines()
     except ValueError:
-        logger.warning("Provided input cannot be parsed into lines.")
+        logger.error("Provided input cannot be parsed into lines.")
         return
 
 def tool_dict_builder(parsed_content):
@@ -65,7 +65,7 @@ def tool_dict_builder(parsed_content):
             tool_dict[tool_name] = sub_dict
 
         except ValueError as e:
-            logger.warning(f"{e}")
+            logger.error(f"{e}")
             return None
 
     return tool_dict
@@ -115,7 +115,7 @@ def material_dict_builder(parsed_content):
             material_dict[material_name] = sub_dict
 
         except ValueError as e:
-            logger.warning(f"{e}")
+            logger.error(f"{e}")
             return None
 
     return material_dict
