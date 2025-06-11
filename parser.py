@@ -28,13 +28,12 @@ def tool_dict_builder(parsed_content):
     """
     Builds a dictionary of tools present in the parsed_content
     - tool_dict key = tool_name (ex. T1)
-    - tool_dict value = sub_dict of tool_name's attributes
+    - tool_dict value = sub_dict of tool_name's attributes - S,A,C
     (ex. {'S': '2', 'A': '1', 'C': '1'})
 
     Returns a dict of tools if input is valid.
     Returns None if Error is raised due to malformed input
     (ex. empty tool_name, missing required attribute)
-
     """
     tool_dict = {}
     for line in parsed_content:
@@ -50,7 +49,7 @@ def tool_dict_builder(parsed_content):
         sub_dict = {}
 
         try:
-            for item in split_line[2:5]:
+            for item in split_line[2:]:
                 if ":" not in item:
                     raise ValueError(f"Missing ':' in '{item}' in '{line}'")
                 attribute, value  = item.split(':')
@@ -61,7 +60,7 @@ def tool_dict_builder(parsed_content):
                 sub_dict[attribute] = value
 
             if not all(attr in sub_dict for attr in ("S", "A", "C")):
-                raise ValueError(f"Missing minimum required attributes (S,A,C) in '{line}'")
+                raise ValueError(f"Missing required attributes (S,A,C) in '{line}'")
 
             tool_dict[tool_name] = sub_dict
 
@@ -72,4 +71,51 @@ def tool_dict_builder(parsed_content):
     return tool_dict
 
 def material_dict_builder(parsed_content):
-    pass
+    """
+    Builds a dictionary of materials present in the parsed_content
+    - tool_dict key = material_name (ex. M1)
+    - tool_dict value = sub_dict of tool_name's attributes - S,A,C,Pref(preferences)
+    (ex. {'S': '4', 'A': '3', 'C': '7', 'Pref': ['T0', 'T2', 'T1']})
+
+    Returns a dict of materials if input is valid.
+    Returns None if Error is raised due to malformed input
+    (ex. empty material_name, missing required attribute)
+    """
+    material_dict = {}
+    for line in parsed_content:
+        if not line.startswith('M'):
+            continue
+
+        split_line = line.split()
+
+        if len(split_line) < 2:
+            raise ValueError(f"Material name is empty in '{line}'.")
+
+        material_name = split_line[1]
+        sub_dict = {}
+
+        try:
+            for item in split_line[2:]:
+                if ":" in item:
+                    attribute, value = item.split(':')
+                    if not attribute:
+                        raise ValueError(f"Missing attribute in '{line}'")
+                    if not value:
+                        raise ValueError(f"Missing value in '{line}'")
+                    sub_dict[attribute] = value
+                elif ">" in item:
+                    pref_order = item.split(">")
+                    sub_dict["Pref"] = pref_order
+                else:
+                    raise ValueError(f"Missing ':' or '>' in '{item}' in '{line}'")
+
+            if not all(attr in sub_dict for attr in ("S", "A", "C", "Pref")):
+                raise ValueError(f"Missing required attributes (S,A,C,Pref) in '{line}'")
+
+            material_dict[material_name] = sub_dict
+
+        except ValueError as e:
+            logger.warning(f"{e}")
+            return None
+
+    return material_dict

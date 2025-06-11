@@ -6,7 +6,8 @@ def toolAssigner():
     print(parsed_content)
     tool_dict = tool_dict_builder(parsed_content)
     print(tool_dict)
-    #material_dict = material_dict_builder(parsed_content)
+    material_dict = material_dict_builder(parsed_content)
+    print(material_dict)
 
 if __name__ == "__main__":
     toolAssigner()
