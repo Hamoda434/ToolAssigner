@@ -3,11 +3,11 @@ from ToolAssigner.parser import open_file_read, parse_lines, tool_dict_builder, 
 def toolAssigner():
     opened = open_file_read("input.txt")
     parsed_content = parse_lines(opened)
-    print(parsed_content)
+    #print(parsed_content)
     tool_dict = tool_dict_builder(parsed_content)
-    print(tool_dict)
+    #print(tool_dict)
     material_dict = material_dict_builder(parsed_content)
-    print(material_dict)
+    #print(material_dict)
 
 if __name__ == "__main__":
     toolAssigner()
