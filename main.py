@@ -8,25 +8,43 @@ logger = logging.getLogger(__name__)
 def tool_material_dict_builder():
     opened = open_file_read("input.txt")
     if not opened:
-        logger.error("Could not find and/or open provided input file.")
-        sys.exit(1)
+        raise FileNotFoundError("Could not find open provided input file.")
 
     parsed_content = parse_lines(opened)
     if not parsed_content:
-        logger.error("Could not parse provided input file.")
-        sys.exit(1)
+        raise ValueError("Could not parse provided input file.")
     print(parsed_content)
+
     tool_dict = tool_dict_builder(parsed_content)
     if not tool_dict:
-        logger.error("Could not build a full tool dictionary.")
-        sys.exit(1)
+        raise ValueError("Could not build a full tool dictionary.")
     print(tool_dict)
+
     material_dict = material_dict_builder(parsed_content)
     if not material_dict:
-        logger.error("Could not build a full material dictionary.")
-        sys.exit(1)
+        raise ValueError("Could not build a full material dictionary.")
+    print(material_dict)
+
+    return tool_dict, material_dict
+
+def tool_material_mathcing(tool_dict, material_dict):
+    print(tool_dict)
     print(material_dict)
 
 
 if __name__ == "__main__":
-    tool_material_dict_builder()
+    try:
+        built_tool_dict, built_material_dict = tool_material_dict_builder()
+    except Exception as e:
+        logger.error(f"Failed to build tool/material dictionaries: {e}")
+        sys.exit(1)
+
+    print(len(built_tool_dict))
+    print(len(built_material_dict))
+
+    if len(built_material_dict) % len(built_tool_dict) != 0:
+        logger.error("The number of provided tools must divide evenly "
+                     "into the number of provided materials.")
+        sys.exit(1)
+    #tool_dict, material_dict = tool_material_dict_builder()
+    #tool_material_mathcing(tool_dict, material_dict)
