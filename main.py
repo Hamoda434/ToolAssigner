@@ -21,7 +21,7 @@ def tool_material_dict_builder():
     print(tool_dict)
 
     material_dict = material_dict_builder(parsed_content)
-    if not material_dict:
+    if material_dict is None:
         raise ValueError("Could not build a full material dictionary.")
     print(material_dict)
 
