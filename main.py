@@ -7,13 +7,8 @@ logger = logging.getLogger(__name__)
 
 def tool_material_dict_builder():
     opened = open_file_read("input.txt")
-    if not opened:
-        raise FileNotFoundError("Could not find open provided input file.")
 
     parsed_content = parse_lines(opened)
-    if not parsed_content:
-        raise ValueError("Could not parse provided input file.")
-    print(parsed_content)
 
     tool_dict = tool_dict_builder(parsed_content)
     if not tool_dict:
@@ -28,9 +23,8 @@ def tool_material_dict_builder():
     return tool_dict, material_dict
 
 def tool_material_matching(tool_dict, material_dict):
-    print(tool_dict)
-    print(material_dict)
-
+    if len(material_dict) % len(tool_dict) != 0:
+        raise ValueError("Number of provided tools must evenly divide the number of provided materials.")
 
 if __name__ == "__main__":
     try:
@@ -39,12 +33,11 @@ if __name__ == "__main__":
         logger.error(f"Failed to build tool/material dictionaries: {e}")
         sys.exit(1)
 
-    print(len(built_tool_dict))
-    print(len(built_material_dict))
-
-    if len(built_material_dict) % len(built_tool_dict) != 0:
-        logger.error("The number of provided tools must divide evenly "
-                     "into the number of provided materials.")
+    try:
+        tool_material_matching(built_tool_dict, built_material_dict)
+    except Exception as e:
+        logger.error(f"Failed to match materials with tools: {e}")
         sys.exit(1)
 
-    tool_material_matching(built_tool_dict, built_material_dict)
+
+
