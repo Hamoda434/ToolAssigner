@@ -1,21 +1,22 @@
 import sys
 import logging
-from ToolAssigner.parser import open_file_read, parse_lines, tool_dict_builder, material_dict_builder
+from ToolAssigner.parser import ToolMaterialBuilder, open_file_read, parse_lines
 from ToolAssigner.matching import ToolMaterialMatcher
 
 logger = logging.getLogger(__name__)
 
 def tool_material_dict_builder():
     opened = open_file_read("input.txt")
-
     parsed_content = parse_lines(opened)
 
-    tool_dict = tool_dict_builder(parsed_content)
+    builder = ToolMaterialBuilder()
+
+    tool_dict = builder.tool_dict_builder(parsed_content)
     if not tool_dict:
         raise ValueError("Could not build a full tool dictionary.")
     print(tool_dict)
 
-    material_dict = material_dict_builder(parsed_content)
+    material_dict = builder.material_dict_builder(parsed_content)
     if material_dict is None:
         raise ValueError("Could not build a full material dictionary.")
     print(material_dict)
