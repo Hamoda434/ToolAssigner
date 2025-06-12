@@ -71,8 +71,8 @@ class ToolMaterialBuilder:
         """
         Builds a dictionary of materials present in the parsed_content
         - tool_dict key = material_name (ex. M1)
-        - tool_dict value = sub_dict of tool_name's attributes - S,A,C,Pref(preferences)
-        (ex. {'S': '4', 'A': '3', 'C': '7', 'Pref': ['T0', 'T2', 'T1']})
+        - tool_dict value = sub_dict of tool_name's attributes - S,A,C,tool_pref(preferences)
+        (ex. {'S': '4', 'A': '3', 'C': '7', 'tool_pref': ['T0', 'T2', 'T1']})
 
         Returns a dict of materials if input is valid.
         Raises ValueError if there is malformed input.
@@ -101,13 +101,13 @@ class ToolMaterialBuilder:
                     sub_dict[attribute] = int(value)
                 elif ">" in item:
                     pref_order = item.split(">")
-                    sub_dict["Pref"] = pref_order
+                    sub_dict["tool_pref"] = pref_order
                 else:
                     raise ValueError(f"Missing ':' or '>' in '{item}' in '{line}'")
 
-            required_attrs = ("S", "A", "C", "Pref")
+            required_attrs = ("S", "A", "C", "tool_pref")
             if not all(attr in sub_dict for attr in required_attrs):
-                raise ValueError(f"Missing required attributes (S,A,C,Pref) in '{line}'")
+                raise ValueError(f"Missing required attributes (S,A,C,tool_pref) in '{line}'")
 
             material_dict[material_name] = sub_dict
 
