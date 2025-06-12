@@ -72,6 +72,9 @@ class ToolMaterialMatcher:
         self.init_tool_dict_for_matching()
 
     def sort_tool_assigments(self):
+        """
+        Sorts each tool's assignments in desc. order based on dot product.
+        """
         for tool_key in self.tool_dict.keys():
             self.tool_dict[tool_key]['assigned_materials'].sort(key=lambda x: x[1], reverse=True)
 
