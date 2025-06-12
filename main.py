@@ -28,7 +28,7 @@ def tool_material_matching(tool_dict, material_dict):
         raise ValueError("Number of provided tools must evenly divide the number of provided materials.")
 
     matcher = ToolMaterialMatcher(tool_dict, material_dict)
-    matcher.add_tool_fit_to_material()
+    matcher.add_material_fit_to_tool()
 
 
 if __name__ == "__main__":
