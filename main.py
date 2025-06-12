@@ -1,6 +1,7 @@
 import sys, logging
 from ToolAssigner.parser import ToolMaterialBuilder, open_file_read, parse_lines
 from ToolAssigner.matching import ToolMaterialMatcher
+from ToolAssigner.write_output import write_results_to_output
 
 logging.basicConfig(level=logging.INFO, format='%(message)s', stream=sys.stdout)
 logger = logging.getLogger(__name__)
@@ -31,6 +32,9 @@ def tool_material_matching(tool_dict, material_dict):
     matcher.tool_material_matching()
     #logger.info(tool_dict)
 
+def output_match_results(tool_dict):
+    write_results_to_output(tool_dict)
+
 if __name__ == "__main__":
     try:
         built_tool_dict, built_material_dict = tool_material_dict_builder()
@@ -44,5 +48,8 @@ if __name__ == "__main__":
         logger.error(f"Failed to match materials with tools: {e}")
         sys.exit(1)
 
-
-
+    try:
+        output_match_results(built_tool_dict)
+    except Exception as e:
+        logger.error(f"Failed to write results to output: {e}")
+        sys.exit(1)

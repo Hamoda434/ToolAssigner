@@ -71,6 +71,10 @@ class ToolMaterialMatcher:
         self.init_material_dict_for_matching()
         self.init_tool_dict_for_matching()
 
+    def sort_tool_assigments(self):
+        for tool_key in self.tool_dict.keys():
+            self.tool_dict[tool_key]['assigned_materials'].sort(key=lambda x: x[1], reverse=True)
+
     def tool_material_matching(self):
         """
         Runs the Gale–Shapley (aka Stable Matching) algorithm to match tools
@@ -81,8 +85,8 @@ class ToolMaterialMatcher:
         Material(s) take on the role of "Proposer", tool(s) take on the role of
         "Acceptor"
 
-        Each tool's 'assigned_materials' key contains a list of their finalized
-        matches after the algorithm is completed.
+        Each tool's 'assigned_materials' key contains a desc. sorted list of their
+        finalized matches after the algorithm is completed.
         """
         self.tool_material_matching_init()
 
@@ -116,9 +120,11 @@ class ToolMaterialMatcher:
                     self.material_dict[current_material_key]['next_tool_pref'] += 1
                     self.unmatched_material_stack.append(current_material_key)
 
+        self.sort_tool_assigments()
         """
         #Final Results:
         for tool_key in self.tool_dict.keys():
             logger.info(self.tool_dict[tool_key]['assigned_materials'])
         """
+
 
