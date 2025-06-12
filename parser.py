@@ -71,8 +71,8 @@ class ToolMaterialBuilder:
     def material_dict_builder(parsed_content):
         """
         Builds a dictionary of materials present in the parsed_content
-        - tool_dict key = material_name (ex. M1)
-        - tool_dict value = sub_dict of tool_name's attributes - S,A,C,tool_pref(preferences)
+        - material_dict key = material_name (ex. M1)
+        - material_dict value = sub_dict of tool_name's attributes - S,A,C,tool_pref(preferences)
         (ex. {'S': '4', 'A': '3', 'C': '7', 'tool_pref': ['T0', 'T2', 'T1']})
 
         Returns a dict of materials if input is valid.
@@ -103,6 +103,9 @@ class ToolMaterialBuilder:
                 elif ">" in item:
                     pref_order = item.split(">")
                     sub_dict["tool_pref"] = pref_order
+                #Edge case if only one tool in preferences:
+                elif item[0] == "T" and item[1].isnumeric():
+                    sub_dict["tool_pref"] = [item]
                 else:
                     raise ValueError(f"Missing ':' or '>' in '{item}' in '{line}'")
 
@@ -113,3 +116,19 @@ class ToolMaterialBuilder:
             material_dict[material_name] = sub_dict
 
         return material_dict
+
+    @staticmethod
+    def validate_material_tool_prefs(material_dict, valid_tools):
+        """
+        Validates each preference in each material in material_dict
+        are actual tools.
+        (ex. valid_tools = [T0, T1, T2] material_dict[material_key]["tool_pref"] = [T3,T2,T1]
+        T3 is an invalid preference in this scenario.)
+
+        Raises ValueError if there is an invalid preference present.
+        """
+        for material_key in material_dict:
+            for pref in material_dict[material_key]["tool_pref"]:
+                if pref not in valid_tools:
+                    raise ValueError(f"Invalid tool in preference '{pref}' in '{material_dict[material_key]["tool_pref"]}'")
+

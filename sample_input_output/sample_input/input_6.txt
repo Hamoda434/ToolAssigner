@@ -1,0 +1,4 @@
+T T0 S:5 A:0 C:0
+T T1 S:0 A:0 C:5
+M M0 S:0 A:0 C:5 T0>T1
+M M1 S:5 A:0 C:0 T1>T0

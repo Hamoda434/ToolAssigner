@@ -52,7 +52,7 @@ class ToolMaterialMatcher:
 
     def init_tool_dict_for_matching(self):
         """
-        For each tool in tool_dict, adds a 'assigned_materials' key and initializes
+        For each tool in tool_dict, adds an 'assigned_materials' key and initializes
         its value to an empty list [].
 
         'assigned_materials' keeps track of materials currently assigned to the tool,
@@ -71,7 +71,7 @@ class ToolMaterialMatcher:
         self.init_material_dict_for_matching()
         self.init_tool_dict_for_matching()
 
-    def sort_tool_assigments(self):
+    def sort_tool_assignments(self):
         """
         Sorts each tool's assignments in desc. order based on dot product.
         """
@@ -123,7 +123,7 @@ class ToolMaterialMatcher:
                     self.material_dict[current_material_key]['next_tool_pref'] += 1
                     self.unmatched_material_stack.append(current_material_key)
 
-        self.sort_tool_assigments()
+        self.sort_tool_assignments()
         """
         #Final Results:
         for tool_key in self.tool_dict.keys():
