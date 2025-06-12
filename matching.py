@@ -36,19 +36,3 @@ class ToolMaterialMatcher:
             tool["Fit"] = fit
         print(self.tool_dict)
 
-        """
-        for material_key in self.material_dict.keys():
-            fit = []
-            material = self.material_dict[material_key]
-
-            for tool_key in self.tool_dict.keys():
-                tool = self.tool_dict[tool_key]
-                dot_product = self.calculate_dot_product(tool, material)
-                fit.append((tool_key, dot_product))
-
-            fit.sort(key=lambda x: x[1], reverse=True)
-            material["Fit"] = fit
-
-        print(self.material_dict)
-"""
-
