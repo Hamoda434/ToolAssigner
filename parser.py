@@ -1,4 +1,5 @@
-import logging
+import sys,logging
+logging.basicConfig(level=logging.INFO, format='%(message)s', stream=sys.stdout)
 logger = logging.getLogger(__name__)
 
 def open_file_read(filepath):

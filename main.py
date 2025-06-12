@@ -1,8 +1,8 @@
-import sys
-import logging
+import sys, logging
 from ToolAssigner.parser import ToolMaterialBuilder, open_file_read, parse_lines
 from ToolAssigner.matching import ToolMaterialMatcher
 
+logging.basicConfig(level=logging.INFO, format='%(message)s', stream=sys.stdout)
 logger = logging.getLogger(__name__)
 
 def tool_material_dict_builder():
@@ -14,12 +14,12 @@ def tool_material_dict_builder():
     tool_dict = builder.tool_dict_builder(parsed_content)
     if not tool_dict:
         raise ValueError("Could not build a full tool dictionary.")
-    print(tool_dict)
+    #logger.info(tool_dict)
 
     material_dict = builder.material_dict_builder(parsed_content)
     if material_dict is None:
         raise ValueError("Could not build a full material dictionary.")
-    print(material_dict)
+    #logger.info(material_dict)
 
     return tool_dict, material_dict
 
@@ -29,7 +29,7 @@ def tool_material_matching(tool_dict, material_dict):
 
     matcher = ToolMaterialMatcher(tool_dict, material_dict)
     matcher.tool_material_matching()
-
+    #logger.info(tool_dict)
 
 if __name__ == "__main__":
     try:
