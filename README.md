@@ -53,7 +53,7 @@ M M11 S:8 A:4 C:7 T0>T1>T2
 ```
 At the root of the project run the program, with:
 ```markdown
-python -m ToolAssigner.main <name_of_your_txt_file>
+python -m ToolAssigner.main <name_of_your_txt_file>.txt
 ```
 
 The result is stored in \ToolAssigner\data\output\ as "<name_of_your_txt_file>_output.txt" 

@@ -60,7 +60,7 @@ def output_match_results(input_filename, tool_dict):
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        logger.error("Usage: python -m ToolAssigner.main <filename>")
+        logger.error("Usage: python -m ToolAssigner.main <filename>.txt")
         logger.error("Place your input files inside data/input/")
         sys.exit(1)
 
