@@ -36,6 +36,7 @@ class ToolMaterialMatcher:
                 dot_product = self.calculate_dot_product(tool, material)
                 fit[material_key] = dot_product
             tool["material_fit"] = fit
+        #logger.info(self.tool_dict)
 
     def init_material_dict_for_matching(self):
         """
@@ -49,6 +50,7 @@ class ToolMaterialMatcher:
         """
         for material_key in self.material_dict.keys():
             self.material_dict[material_key]['next_tool_pref'] = 0
+        #logger.info(self.material_dict)
 
     def init_tool_dict_for_matching(self):
         """
@@ -61,6 +63,7 @@ class ToolMaterialMatcher:
         """
         for tool_key in self.tool_dict.keys():
             self.tool_dict[tool_key]['assigned_materials'] = []
+        #logger.info(self.tool_dict)
 
     def tool_material_matching_init(self):
         """
@@ -124,6 +127,7 @@ class ToolMaterialMatcher:
                     self.unmatched_material_stack.append(current_material_key)
 
         self.sort_tool_assignments()
+        #logger.info(self.tool_dict)
         """
         #Final Results:
         for tool_key in self.tool_dict.keys():
