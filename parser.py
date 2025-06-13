@@ -1,13 +1,15 @@
 import sys,logging
+from pathlib import Path
 logging.basicConfig(level=logging.INFO, format='%(message)s', stream=sys.stdout)
 logger = logging.getLogger(__name__)
 
-def open_file_read(filepath):
+def open_file_read(filename):
     """
     Opens provided file for reading.
     Raises exception if content can't be opened and/or found.
     """
-    with open(filepath, 'r') as f:
+    input_path = Path(__file__).parent / "data" / "input" / filename
+    with open(input_path, 'r') as f:
         return f.read()
 
 def parse_lines(content):
