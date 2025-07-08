@@ -27,7 +27,7 @@ git clone https://github.com/Hamoda434/ToolAssigner/
 ## How to Use 
 In \ToolAssigner\data\input\ create a .txt file containing a sample of tools and materials, where **num_of_materials % num_of_tools == 0**
 
-**T** is a tool line. **T#** is a tool. **M** is a material line. **M#** is a tool.
+**T** is a tool line. **T#** is a tool. **M** is a material line. **M#** is a material.
 **S:#** represents Speed value, **A:#** represents Accuracy value, and **C:#** represents Cost value.
 Materials have preferences, wherein **"T#>T%"** means **T# is preferred over T%**
 
