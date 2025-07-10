@@ -31,7 +31,7 @@ def tool_material_dict_builder(input_filename):
         raise ValueError("Could not build a full material dictionary.")
     #logger.info(material_dict)
 
-    builder.validate_material_tool_prefs(material_dict, tool_dict.keys())
+    #builder.validate_material_tool_prefs(material_dict, tool_dict.keys())
 
     return tool_dict, material_dict
 

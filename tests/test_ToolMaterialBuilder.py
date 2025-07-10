@@ -77,7 +77,7 @@ class TestToolMaterialBuilder(unittest.TestCase):
         with self.assertRaises(ValueError):
             material_dict = builder.material_dict_builder(parsed_content)
             if material_dict is None:
-                raise ValueError("Could not build a full tool dictionary.")
+                raise ValueError("Could not build a full material dictionary.")
 
 if __name__ == '__main__':
     unittest.main()

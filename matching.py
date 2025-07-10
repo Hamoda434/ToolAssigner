@@ -26,7 +26,7 @@ class ToolMaterialMatcher:
         """
         Under key "material_fit" adds a list of descending sorted tuples to each tool in tool_dict".
         Sorted tuples represent dot product to respective material.
-        (ex. 'material_fit': [('M6', 188), ('M3', 171), ('M5', 161), ('M11', 154),...])
+        (ex. T0: {'material_fit': [('M6', 188), ('M3', 171), ('M5', 161), ('M11', 154),...])}
         """
         for tool_key in self.tool_dict.keys():
             fit = {}
@@ -103,8 +103,15 @@ class ToolMaterialMatcher:
             #logger.info(current_material_key)
 
             proposed_index = self.material_dict[current_material_key]['next_tool_pref']
+            tool_preferences = self.material_dict[current_material_key]['tool_pref']
+
+            if proposed_index >= len(tool_preferences):
+                #logger.error(f"{current_material_key} has exhausted all preferences. Skipping.")
+                continue
+
             proposed_match_tool_key = self.material_dict[current_material_key]['tool_pref'][proposed_index]
             # logger.info(proposed_match_tool_key)
+
 
             tool_curr_matches = self.tool_dict[proposed_match_tool_key]['assigned_materials']
             dot_product = self.tool_dict[proposed_match_tool_key]['material_fit'][current_material_key]
@@ -119,12 +126,24 @@ class ToolMaterialMatcher:
                     worst_match_key = worst_curr_match[0]
 
                     self.material_dict[worst_match_key]['next_tool_pref'] += 1
-                    self.unmatched_material_stack.append(worst_curr_match[0])
+                    if (self.material_dict[current_material_key]['next_tool_pref'] <
+                            len(self.material_dict[current_material_key]['tool_pref'])):
+                        self.material_dict[current_material_key]['next_tool_pref'] += 1
+
+                        self.unmatched_material_stack.append(worst_match_key)
+                    #else:
+                    #    logger.error(f"{worst_match_key} has exhausted all preferences. Skipping.")
 
                     tool_curr_matches.append((current_material_key, dot_product))
+
                 else:
                     self.material_dict[current_material_key]['next_tool_pref'] += 1
-                    self.unmatched_material_stack.append(current_material_key)
+                    if self.material_dict[current_material_key]['next_tool_pref'] < len(
+                            self.material_dict[current_material_key]['tool_pref']):
+                        self.unmatched_material_stack.append(current_material_key)
+                    #else:
+                    #    logger.error(f"{current_material_key} has exhausted all preferences. Skipping.")
+
 
         self.sort_tool_assignments()
         #logger.info(self.tool_dict)
